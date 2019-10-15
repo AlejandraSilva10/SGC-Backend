@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="py.com.locex_sgc-backend_jar_0.0.1PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>py.com.uds.sgc.entity.DetallePlanCuentas</class>
+    <class>py.com.uds.sgc.entity.TipoDocumento</class>
+    <class>py.com.uds.sgc.entity.Cliente</class>
+    <class>py.com.uds.sgc.entity.Compra</class>
+    <class>py.com.uds.sgc.entity.Contribuyente</class>
+    <class>py.com.uds.sgc.entity.PeriodoFiscal</class>
+    <class>py.com.uds.sgc.entity.PlanCuenta</class>
+    <class>py.com.uds.sgc.entity.Proveedor</class>
+    <class>py.com.uds.sgc.entity.Rubro</class>
+    <class>py.com.uds.sgc.entity.Sucursal</class>
+    <class>py.com.uds.sgc.entity.SucursalRubro</class>
+    <class>py.com.uds.sgc.entity.TipoCuenta</class>
+    <class>py.com.uds.sgc.entity.Venta</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/SGC"/>
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="12345"/>
+    </properties>
+  </persistence-unit>
+</persistence>
