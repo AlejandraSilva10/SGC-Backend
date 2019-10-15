@@ -8,7 +8,9 @@ package py.com.uds.sgc.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import py.com.uds.sgc.converter.ContribuyenteConverter;
 import py.com.uds.sgc.entity.Contribuyente;
+import py.com.uds.sgc.model.response.ContribuyenteResponse;
 import py.com.uds.sgc.repository.ContribuyenteRepository;
 
 /**
@@ -22,12 +24,15 @@ public class ContribuyenteService {
     @Autowired
     private ContribuyenteRepository contribuyenteRepository;
     
-    public List<Contribuyente> getAll(){
-        return contribuyenteRepository.findAll();        
+    @Autowired
+    private ContribuyenteConverter contribuyenteConverter;
+    
+    public List<ContribuyenteResponse> getAll(){
+        return contribuyenteConverter.entitiesToModels(contribuyenteRepository.findAll());
     }
     
-    public Contribuyente getById(Integer id){
-        return contribuyenteRepository.findById(id).get();
+    public ContribuyenteResponse getById(Integer id){
+        return contribuyenteConverter.entityToModel(contribuyenteRepository.findById(id).get());
     }
     
     public Contribuyente save(Contribuyente entity){

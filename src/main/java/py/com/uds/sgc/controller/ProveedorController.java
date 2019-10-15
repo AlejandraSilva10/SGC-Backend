@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import py.com.uds.sgc.entity.Contribuyente;
-import py.com.uds.sgc.model.response.ContribuyenteResponse;
-import py.com.uds.sgc.service.ContribuyenteService;
+import py.com.uds.sgc.entity.Proveedor;
+import py.com.uds.sgc.model.response.ProveedorResponse;
+import py.com.uds.sgc.service.ProveedorService;
 
 /**
  *
@@ -28,20 +28,20 @@ import py.com.uds.sgc.service.ContribuyenteService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/contribuyentes")
-public class ContribuyenteController {
+@RequestMapping("/proveedores")
+public class ProveedorController {
     
     @Autowired
-    private ContribuyenteService contribuyenteService;
+    private ProveedorService proveedorService;
 
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAll() {
         try {
-            List<ContribuyenteResponse> contribuyentes = contribuyenteService.getAll();
-            if (contribuyentes == null || contribuyentes.isEmpty()) {
+            List<ProveedorResponse> models = proveedorService.getAll();
+            if (models == null || models.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity<>(contribuyentes, HttpStatus.OK);
+            return new ResponseEntity<>(models, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -67,7 +67,7 @@ public class ContribuyenteController {
     @GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getById(@PathVariable("id") Integer id) {
         try {
-            ContribuyenteResponse entity = contribuyenteService.getById(id);
+            ProveedorResponse entity = proveedorService.getById(id);
             if (entity == null) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -79,9 +79,9 @@ public class ContribuyenteController {
     }
     
     @PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> save(@RequestBody Contribuyente request){
+    public ResponseEntity<?> save(@RequestBody Proveedor request){
         try {
-            Contribuyente entity = contribuyenteService.save(request);
+            Proveedor entity = proveedorService.save(request);
             if (entity == null) {
                 return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
             }
