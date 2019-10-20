@@ -5,7 +5,10 @@
  */
 package py.com.uds.sgc.repository;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import py.com.uds.sgc.entity.Venta;
 
@@ -15,4 +18,9 @@ import py.com.uds.sgc.entity.Venta;
  */
 
 @Repository
-public interface VentaRepository extends JpaRepository<Venta, Integer> {}
+public interface VentaRepository extends JpaRepository<Venta, Integer> {
+
+    @Query("SELECT V FROM Venta V WHERE V.idContribuyente.idContribuyente = :id")
+    public List<Venta> findByContribuyente(@Param("id") Integer id);
+    
+}
