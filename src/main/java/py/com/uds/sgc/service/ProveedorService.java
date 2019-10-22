@@ -43,4 +43,13 @@ public class ProveedorService {
         return proveedorRepository.saveAndFlush(entity);
     }
     
+    public void delete(Integer id) throws Exception{
+        Proveedor entity = proveedorRepository.findById(id).get();
+        if(entity != null){
+            proveedorRepository.delete(entity);            
+            return;
+        }
+        throw new Exception("El proveedor no existe");
+    }
+    
 }

@@ -38,4 +38,13 @@ public class ClienteService {
         return clienteRepository.saveAndFlush(cliente);
     }
     
+    public void delete(Integer id) throws Exception{
+        Cliente cliente = this.getById(id);
+        if(cliente != null){
+            clienteRepository.delete(cliente);
+            return;
+        }
+        throw new Exception("El cliente no existe");
+    }
+    
 }

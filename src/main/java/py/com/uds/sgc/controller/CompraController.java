@@ -11,13 +11,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import py.com.uds.sgc.entity.Compra;
+import py.com.uds.sgc.model.request.CompraRequest;
+import py.com.uds.sgc.model.response.CompraResponse;
 import py.com.uds.sgc.service.CompraService;
 
 /**
@@ -36,7 +39,7 @@ public class CompraController {
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAll() {
         try {
-            List<Compra> compras = compraService.getAll();
+            List<CompraResponse> compras = compraService.getAll();
             if (compras == null || compras.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -46,27 +49,24 @@ public class CompraController {
         }
     }
     
-//    @GetMapping(value="/filtered", produces=MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<?> getByFields(
-//        @RequestParam(value="nombres", required=false) String nombres,
-//        @RequestParam(value="apellidos", required=false) String apellidos,
-//        @RequestParam(value="ciudad", required=false) Integer ciudad){
-//        try {
-//            List<ClienteResponse> clientes = clienteService.getAllFiltered(nombres,
-//                apellidos, ciudad);
-//            if (clientes == null || clientes.isEmpty()) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity<>(clientes, HttpStatus.OK);
-//        } catch (Exception ex) {
-//            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }        
-//    }
-    
-    @GetMapping(value="/{id_compra}", produces=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getById(@PathVariable("id_compra") Integer idCompra) {
+    @GetMapping(value="/filtered", produces=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getByFields(
+        @RequestParam(value="contribuyente", required=true) Integer contribuyente){
         try {
-            Compra compra = compraService.getById(idCompra);
+            List<CompraResponse> models = compraService.getByContribuyente(contribuyente);
+            if (models == null || models.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(models, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getById(@PathVariable("id") Integer id) {
+        try {
+            CompraResponse compra = compraService.getById(id);
             if (compra == null) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -78,9 +78,9 @@ public class CompraController {
     }
     
     @PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> save(@RequestBody Compra request){
+    public ResponseEntity<?> save(@RequestBody CompraRequest request){
         try {
-            Compra compra = compraService.save(request);
+            CompraResponse compra = compraService.save(request);
             if (compra == null) {
                 return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
             }
@@ -91,15 +91,15 @@ public class CompraController {
         }
     }
     
-//    @DeleteMapping(value="/{id_cliente}", produces=MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<?> delete(@PathVariable("id_cliente") Integer idCliente){
-//        try{
-//            clienteService.delete(idCliente);
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        }
-//        catch(Exception ex){
-//            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @DeleteMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id){
+        try{
+            compraService.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch(Exception ex){
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     
 }

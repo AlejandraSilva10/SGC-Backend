@@ -64,40 +64,40 @@ public class Compra implements Serializable {
     
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 0, max = 20)
     @Column(name = "iva_10")
     private String iva10;
     
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 0, max = 20)
     @Column(name = "iva_5")
     private String iva5;
     
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "concepto")
     private String concepto;
     
     @JoinColumn(name = "id_contribuyente", referencedColumnName = "id_contribuyente")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Contribuyente idContribuyente;
     
     @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Proveedor idProveedor;
     
     @JoinColumn(name = "id_rubro", referencedColumnName = "id_rubro")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Rubro idRubro;
     
     @JoinColumn(name = "id_sucursal", referencedColumnName = "id_sucursal")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Sucursal idSucursal;
     
     @JoinColumn(name = "id_tipo_documento", referencedColumnName = "id_tipo_documento")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private TipoDocumento idTipoDocumento;
     
 }
