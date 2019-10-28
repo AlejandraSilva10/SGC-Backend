@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package py.com.uds.sgc.controller;
 
 import java.util.List;
@@ -24,11 +19,6 @@ import py.com.uds.sgc.model.request.ContribuyenteRequest;
 import py.com.uds.sgc.model.response.ContribuyenteResponse;
 import py.com.uds.sgc.service.ContribuyenteService;
 
-/**
- *
- * @author gino_junchaya
- */
-
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/contribuyentes")
@@ -49,23 +39,6 @@ public class ContribuyenteController {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-//    @GetMapping(value="/filtered", produces=MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<?> getByFields(
-//        @RequestParam(value="nombres", required=false) String nombres,
-//        @RequestParam(value="apellidos", required=false) String apellidos,
-//        @RequestParam(value="ciudad", required=false) Integer ciudad){
-//        try {
-//            List<ClienteResponse> clientes = clienteService.getAllFiltered(nombres,
-//                apellidos, ciudad);
-//            if (clientes == null || clientes.isEmpty()) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity<>(clientes, HttpStatus.OK);
-//        } catch (Exception ex) {
-//            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }        
-//    }
     
     @GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getById(@PathVariable("id") Integer id) {

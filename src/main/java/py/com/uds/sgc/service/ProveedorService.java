@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package py.com.uds.sgc.service;
 
 import java.util.List;
@@ -12,11 +7,6 @@ import py.com.uds.sgc.converter.ProveedorConverter;
 import py.com.uds.sgc.entity.Proveedor;
 import py.com.uds.sgc.model.response.ProveedorResponse;
 import py.com.uds.sgc.repository.ProveedorRepository;
-
-/**
- *
- * @author gino_junchaya
- */
 
 @Service
 public class ProveedorService {

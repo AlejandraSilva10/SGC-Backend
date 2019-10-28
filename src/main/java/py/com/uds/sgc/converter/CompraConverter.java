@@ -1,28 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package py.com.uds.sgc.converter;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.com.uds.sgc.entity.Cliente;
 import py.com.uds.sgc.entity.Compra;
 import py.com.uds.sgc.entity.Contribuyente;
 import py.com.uds.sgc.entity.Proveedor;
 import py.com.uds.sgc.entity.Sucursal;
 import py.com.uds.sgc.entity.TipoDocumento;
-import py.com.uds.sgc.entity.Venta;
 import py.com.uds.sgc.model.request.CompraRequest;
 import py.com.uds.sgc.model.response.CompraResponse;
-
-/**
- *
- * @author gino_junchaya
- */
 
 @Component
 public class CompraConverter {

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package py.com.uds.sgc.converter;
 
 import java.util.ArrayList;
@@ -12,11 +7,6 @@ import py.com.uds.sgc.entity.Contribuyente;
 import py.com.uds.sgc.entity.Sucursal;
 import py.com.uds.sgc.model.request.SucursalRequest;
 import py.com.uds.sgc.model.response.SucursalResponse;
-
-/**
- *
- * @author gino_junchaya
- */
 
 @Component
 public class SucursalConverter {
