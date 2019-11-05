@@ -9,7 +9,7 @@ public class VentaResponse {
     private String nroComprobante;
     private Integer nroTimbrado;
     private Date fecha;       
-    private Integer idTipoDocumento;
+    private TipoDocumentoResponse tipoDocumento;
     private String importeTotal;
     private String exentas;
     private String iva10;

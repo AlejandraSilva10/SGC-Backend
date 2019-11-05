@@ -1,5 +1,6 @@
 package py.com.uds.sgc.controller;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,25 @@ public class CompraController {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @GetMapping(value="/report", produces=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> report(
+        @RequestParam(value="type", required=true) String reportType,            
+        @RequestParam(value="contribuyente", required=true) Integer contribuyente,
+        @RequestParam(value="desde", required=false) Date desde,
+        @RequestParam(value="hasta", required=false) Date hasta){
+        try {
+            byte[] report = compraService.report(reportType, contribuyente, desde, hasta);
+            if(report == null){
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return ResponseEntity.ok().header("Content-Type", "application/pdf; charset=UTF-8")
+            .header("Content-Disposition", "inline; filename=\"" + System.currentTimeMillis() + ".pdf\"")
+            .body(report);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }    
     
     @GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getById(@PathVariable("id") Integer id) {

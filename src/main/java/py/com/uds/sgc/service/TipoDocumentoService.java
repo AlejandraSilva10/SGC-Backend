@@ -22,6 +22,10 @@ public class TipoDocumentoService {
         return tipoDocumentoConverter.entitiesToModels(tipoDocumentoRepository.findAll());
     }
     
+    public TipoDocumento getById(Integer id){
+        return tipoDocumentoRepository.findById(id).get();
+    }
+    
     public TipoDocumentoResponse save(TipoDocumentoRequest request){
         TipoDocumento entity = tipoDocumentoConverter.modelToEntity(request);
         return tipoDocumentoConverter.entityToModel(tipoDocumentoRepository.save(entity));

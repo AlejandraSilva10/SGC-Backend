@@ -7,9 +7,14 @@ import org.springframework.stereotype.Component;
 import py.com.uds.sgc.entity.Cliente;
 import py.com.uds.sgc.entity.Contribuyente;
 import py.com.uds.sgc.entity.Sucursal;
+import py.com.uds.sgc.entity.TipoDocumento;
 import py.com.uds.sgc.entity.Venta;
 import py.com.uds.sgc.model.request.VentaRequest;
+import py.com.uds.sgc.model.response.CompraReport;
+import py.com.uds.sgc.model.response.CompraResponse;
+import py.com.uds.sgc.model.response.VentaReport;
 import py.com.uds.sgc.model.response.VentaResponse;
+import py.com.uds.sgc.service.TipoDocumentoService;
 
 @Component
 public class VentaConverter {
@@ -20,6 +25,34 @@ public class VentaConverter {
     @Autowired
     private SucursalConverter sucursalConverter;
     
+    @Autowired
+    private TipoDocumentoConverter tipoDocumentoConverter;
+    
+    @Autowired
+    private TipoDocumentoService tipoDocumentoService;
+    
+    public VentaReport toReport(VentaResponse model){
+        VentaReport report = new VentaReport();
+        report.setExentas(model.getExentas());
+        report.setFecha(model.getFecha());
+        report.setImporteTotal(model.getImporteTotal());
+        report.setIva10(model.getIva10());
+        report.setIva5(model.getIva5());
+        report.setNroComprobante(model.getNroComprobante());
+        report.setCliente(model.getCliente().getRazonSocial());
+        report.setClienteRuc(model.getCliente().getRuc());
+        report.setSucursal(model.getSucursal().getDescripcion());
+        report.setTipoDocumento(model.getTipoDocumento().getDescripcion());
+        return report;
+    }
+    
+    public List<VentaReport> toReports(List<VentaResponse> entities){
+        List<VentaReport> models = new ArrayList<>();
+        if(entities == null || entities.isEmpty()){ return models; }
+        entities.forEach((entity) -> { models.add(this.toReport(entity)); });
+        return models;
+    }    
+    
     public VentaResponse entityToModel(Venta entity){
         if(entity == null){ return null; }
         VentaResponse model = new VentaResponse();
@@ -27,7 +60,8 @@ public class VentaConverter {
         model.setExentas(entity.getExentas());
         model.setFecha(entity.getFecha());
         model.setId(entity.getIdVenta());
-        model.setIdTipoDocumento(entity.getIdTipoDocumento());
+        TipoDocumento tipoDocumento = tipoDocumentoService.getById(entity.getIdTipoDocumento());
+        model.setTipoDocumento(tipoDocumentoConverter.entityToModel(tipoDocumento));
         model.setImporteTotal(entity.getImporteTotal());
         model.setIva10(entity.getIva10());
         model.setIva5(entity.getIva5());

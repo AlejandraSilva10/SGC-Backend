@@ -10,6 +10,7 @@ import py.com.uds.sgc.entity.Proveedor;
 import py.com.uds.sgc.entity.Sucursal;
 import py.com.uds.sgc.entity.TipoDocumento;
 import py.com.uds.sgc.model.request.CompraRequest;
+import py.com.uds.sgc.model.response.CompraReport;
 import py.com.uds.sgc.model.response.CompraResponse;
 
 @Component
@@ -26,6 +27,28 @@ public class CompraConverter {
     
     @Autowired
     private TipoDocumentoConverter tipoDocumentoConverter;
+    
+    public CompraReport toReport(CompraResponse model){
+        CompraReport report = new CompraReport();
+        report.setExentas(model.getExentas());
+        report.setFecha(model.getFecha());
+        report.setImporteTotal(model.getImporteTotal());
+        report.setIva10(model.getIva10());
+        report.setIva5(model.getIva5());
+        report.setNroComprobante(model.getNroComprobante());
+        report.setProveedor(model.getProveedor().getRazonSocial());
+        report.setProveedorRuc(model.getProveedor().getRuc());
+        report.setSucursal(model.getSucursal().getDescripcion());
+        report.setTipoDocumento(model.getTipoDocumento().getDescripcion());
+        return report;
+    }
+    
+    public List<CompraReport> toReports(List<CompraResponse> entities){
+        List<CompraReport> models = new ArrayList<>();
+        if(entities == null || entities.isEmpty()){ return models; }
+        entities.forEach((entity) -> { models.add(this.toReport(entity)); });
+        return models;
+    }
     
     public CompraResponse entityToModel(Compra entity){
         if(entity == null){ return null; }
