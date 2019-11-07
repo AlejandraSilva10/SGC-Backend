@@ -13,10 +13,10 @@ import py.com.uds.sgc.entity.Compra;
 @Repository
 public interface CompraRepository extends JpaRepository<Compra, Integer> {
 
-    @Query("SELECT C FROM Compra C WHERE C.idContribuyente.idContribuyente = :id")
+    @Query("SELECT C FROM Compra C WHERE C.idContribuyente.idContribuyente = :id ORDER BY C.fecha ASC")
     public List<Compra> findByContribuyente(@Param("id") Integer id);    
     
-    @Query("SELECT C FROM Compra C WHERE C.idContribuyente.idContribuyente = :id and C.fecha BETWEEN :start and :end")
+    @Query("SELECT C FROM Compra C WHERE C.idContribuyente.idContribuyente = :id and C.fecha BETWEEN :start and :end ORDER BY C.fecha ASC")
     public List<Compra> findByFields(@Param("id") Integer id, @Param("start") Date start, @Param("end") Date end);
     
     @Override

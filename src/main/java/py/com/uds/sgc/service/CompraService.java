@@ -1,6 +1,7 @@
 package py.com.uds.sgc.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,8 +36,8 @@ public class CompraService {
     @Autowired
     private ReportService reportService;
     
-    String [] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+    String [] meses = {"ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
+        "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"};
     
     public List<CompraResponse> getAll(){
         return compraConverter.entitiesToModels(compraRepository.findAll());
@@ -58,16 +59,17 @@ public class CompraService {
     public byte[] report(String reportType, Integer contribuyente, Date desde, Date hasta) throws JRException{
         List<CompraResponse> compras = getByFilters(contribuyente, desde, hasta);
         List<CompraReport> reportes = compraConverter.toReports(compras);
-        if(compras == null || compras.isEmpty()){ return null; }
-        JRBeanCollectionDataSource comprasDS = new JRBeanCollectionDataSource(reportes);
+        if(compras == null || compras.isEmpty()){ reportes = new ArrayList<>(); }
         ContribuyenteResponse contribuyenteModel = contribuyenteService.getById(contribuyente);
         Map<String, Object> params = new HashMap<>();
-        params.put("contribuyente", contribuyenteModel.getRazonSocial());
-        params.put("ruc", contribuyenteModel.getRuc());
+        params.put("contribuyente", contribuyenteModel == null ? "No hay datos" : contribuyenteModel.getRazonSocial());
+        params.put("ruc", contribuyenteModel == null ? "No hay datos" : contribuyenteModel.getRuc());
         params.put("fecha", today());
-        params.put("mes", meses[new Date().getMonth()]);
+        params.put("mes", !reportes.isEmpty() ? meses[reportes.get(0).getFecha().getMonth()] : "[No hay datos]");        
+        reportes.add(0, new CompraReport());
+        JRBeanCollectionDataSource comprasDS = new JRBeanCollectionDataSource(reportes);
         params.put("compras", comprasDS);
-        return reportService.generatePDF("compras-report.jrxml", params, comprasDS);
+        return reportService.generatePDF(reportType, "compras-report.jrxml", params, comprasDS);
     }
     
     public String today(){

@@ -1,6 +1,7 @@
 package py.com.uds.sgc.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,68 +23,70 @@ import py.com.uds.sgc.repository.VentaRepository;
 
 @Service
 public class VentaService {
-    
+
     @Autowired
     private VentaRepository ventaRepository;
-    
+
     @Autowired
     private VentaConverter ventaConverter;
-    
+
     @Autowired
     private ContribuyenteService contribuyenteService;
-    
+
     @Autowired
     private ReportService reportService;
-    
-    String [] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};    
-    
-    public List<VentaResponse> getAll(){
+
+    String[] meses = {"ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
+        "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"};
+
+    public List<VentaResponse> getAll() {
         return ventaConverter.entitiesToModels(ventaRepository.findAll());
     }
-    
-    public List<VentaResponse> getByFilters(Integer idContribuyente, Date desde, Date hasta){
-        if(desde == null || hasta == null){
+
+    public List<VentaResponse> getByFilters(Integer idContribuyente, Date desde, Date hasta) {
+        if (desde == null || hasta == null) {
             return getByContribuyente(idContribuyente);
-        }
-        else{
+        } else {
             return ventaConverter.entitiesToModels(ventaRepository.findByFields(idContribuyente, desde, hasta));
         }
-    }    
-    
-    public List<VentaResponse> getByContribuyente(Integer id){
+    }
+
+    public List<VentaResponse> getByContribuyente(Integer id) {
         return ventaConverter.entitiesToModels(ventaRepository.findByContribuyente(id));
     }
-    
-    public byte[] report(String reportType, Integer contribuyente, Date start, Date end) throws JRException{
+
+    public byte[] report(String reportType, Integer contribuyente, Date start, Date end) throws JRException {
         List<VentaResponse> compras = getByFilters(contribuyente, start, end);
         List<VentaReport> reportes = ventaConverter.toReports(compras);
-        if(compras == null || compras.isEmpty()){ return null; }
-        JRBeanCollectionDataSource comprasDS = new JRBeanCollectionDataSource(reportes);
+        if (compras == null || compras.isEmpty()) {
+            reportes = new ArrayList<>();
+        }
         ContribuyenteResponse contribuyenteModel = contribuyenteService.getById(contribuyente);
         Map<String, Object> params = new HashMap<>();
-        params.put("contribuyente", contribuyenteModel.getRazonSocial());
-        params.put("ruc", contribuyenteModel.getRuc());
+        params.put("contribuyente", contribuyenteModel == null ? "No hay datos" : contribuyenteModel.getRazonSocial());
+        params.put("ruc", contribuyenteModel == null ? "No hay datos" : contribuyenteModel.getRuc());
         params.put("fecha", today());
-        params.put("mes", meses[new Date().getMonth()]);
+        params.put("mes", !reportes.isEmpty() ? meses[reportes.get(0).getFecha().getMonth()] : "[No hay datos]");
+        reportes.add(0, new VentaReport());
+        JRBeanCollectionDataSource comprasDS = new JRBeanCollectionDataSource(reportes);
         params.put("ventas", comprasDS);
-        return reportService.generatePDF("ventas-report.jrxml", params, comprasDS);
-    }    
-    
-    public String today(){
+        return reportService.generatePDF(reportType, "ventas-report.jrxml", params, comprasDS);
+    }
+
+    public String today() {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         return formatter.format(date);
-    }    
-    
-    public VentaResponse save(VentaRequest request){
+    }
+
+    public VentaResponse save(VentaRequest request) {
         Venta entity = ventaConverter.modelToEntity(request);
         return ventaConverter.entityToModel(ventaRepository.save(entity));
     }
-    
-    public VentaResponse update(VentaRequest request) throws Exception{
+
+    public VentaResponse update(VentaRequest request) throws Exception {
         Venta entity = ventaRepository.findById(request.getId()).get();
-        if(entity != null){
+        if (entity != null) {
             entity.setConcepto(request.getConcepto());
             entity.setExentas(request.getExentas());
             entity.setFecha(request.getFecha());
@@ -103,16 +106,15 @@ public class VentaService {
         }
         throw new Exception("La venta no existe");
     }
-    
-    
+
     @Transactional
-    public void delete(Integer id) throws Exception{
+    public void delete(Integer id) throws Exception {
         Venta entity = ventaRepository.findById(id).get();
-        if(entity != null){
-            ventaRepository.delete(entity.getIdVenta());            
+        if (entity != null) {
+            ventaRepository.delete(entity.getIdVenta());
             return;
         }
-        throw new Exception("La venta no existe");        
+        throw new Exception("La venta no existe");
     }
-    
+
 }

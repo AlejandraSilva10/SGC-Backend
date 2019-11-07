@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="618f6ad1-1913-40f5-944b-6cec3787ce6c">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="618f6ad1-1913-40f5-944b-6cec3787ce6c">
 	<property name="ireport.zoom" value="0.6209213230591554"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -150,32 +150,6 @@
 			<bottomPen lineWidth="0.5" lineColor="#D7DBDD"/>
 		</box>
 	</style>
-	<subDataset name="Table Dataset 1" uuid="470a0c67-29aa-4f86-bc25-32edce4553a8"/>
-	<subDataset name="ComprasDataset" uuid="14a98d22-19b4-401f-bcc2-0d6668ff2bd8">
-		<field name="importeTotal" class="java.lang.String"/>
-		<field name="iva10" class="java.lang.String"/>
-		<field name="fecha" class="java.util.Date"/>
-		<field name="proveedor" class="java.lang.String"/>
-		<field name="proveedorRuc" class="java.lang.String"/>
-		<field name="nroComprobante" class="java.lang.String"/>
-		<field name="exentas" class="java.lang.String"/>
-		<field name="iva5" class="java.lang.String"/>
-		<field name="sucursal" class="java.lang.String"/>
-		<field name="tipoDocumento" class="java.lang.String"/>
-		<variable name="sum_iva10" class="java.lang.Integer" calculation="Sum">
-			<variableExpression><![CDATA[Integer.parseInt($F{importeTotal})]]></variableExpression>
-			<initialValueExpression><![CDATA[0]]></initialValueExpression>
-		</variable>
-		<variable name="sum_iva5" class="java.lang.Integer" calculation="Sum">
-			<variableExpression><![CDATA[Integer.parseInt($F{iva5})]]></variableExpression>
-		</variable>
-		<variable name="total" class="java.lang.Integer" calculation="Sum">
-			<variableExpression><![CDATA[Integer.parseInt($F{importeTotal})]]></variableExpression>
-		</variable>
-		<variable name="sum_exentas" class="java.lang.Integer" calculation="Sum">
-			<variableExpression><![CDATA[Integer.parseInt($F{exentas})]]></variableExpression>
-		</variable>
-	</subDataset>
 	<subDataset name="VentasDataset" uuid="73afef4a-bbee-45f3-b579-3d043ef89a02">
 		<field name="importeTotal" class="java.lang.String"/>
 		<field name="fecha" class="java.util.Date"/>
@@ -211,19 +185,19 @@
 		<band height="79" splitType="Stretch">
 			<image>
 				<reportElement x="14" y="12" width="50" height="50" uuid="978d6219-86df-46e0-a4e0-d69388c4b206"/>
-				<imageExpression><![CDATA["/home/gino_junchaya/Desarrollo/SGC/backend/src/main/resources/reports/logo.png"]]></imageExpression>
+				<imageExpression><![CDATA[this.getClass().getResourceAsStream("/reports/logo.png")]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="75" y="9" width="667" height="20" uuid="949f36d5-0538-408d-b5a9-3823b153e2b7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Lato" size="16" isBold="false"/>
+					<font size="16" isBold="false"/>
 				</textElement>
 				<text><![CDATA[SISTEMA DE GESTIÓN CONTABLE]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="75" y="30" width="667" height="37" uuid="6c1d018f-458c-4863-bd73-cd8742f957b1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Lato" size="18" isBold="true"/>
+					<font size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[REPORTE DE VENTAS]]></text>
 			</staticText>
@@ -232,28 +206,28 @@
 	<pageHeader>
 		<band height="84" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="93" height="25" uuid="418349f6-68dc-4bf6-be8d-bb9d59b067bf"/>
+				<reportElement x="0" y="0" width="120" height="25" uuid="418349f6-68dc-4bf6-be8d-bb9d59b067bf"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Lato" size="10" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CONTRIBUYENTE: ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="93" y="0" width="246" height="25" uuid="b64c300e-6e41-4956-8081-0ef6e553e44f"/>
+				<reportElement x="120" y="0" width="219" height="25" uuid="b64c300e-6e41-4956-8081-0ef6e553e44f"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{contribuyente}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="25" width="93" height="25" uuid="f0251167-134e-480a-983c-68b0f06f1c4c"/>
+				<reportElement x="0" y="25" width="120" height="25" uuid="f0251167-134e-480a-983c-68b0f06f1c4c"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Lato" size="10" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[RUC:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="93" y="25" width="246" height="25" uuid="5dd8257e-1491-4504-8d88-24dfaacc6ef3"/>
+				<reportElement x="120" y="25" width="219" height="25" uuid="5dd8257e-1491-4504-8d88-24dfaacc6ef3"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
@@ -262,7 +236,7 @@
 			<staticText>
 				<reportElement x="594" y="0" width="93" height="25" uuid="093ecebc-6927-4094-852f-b18a7f8466cd"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Lato" size="10" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[FECHA:]]></text>
 			</staticText>
@@ -276,7 +250,7 @@
 			<staticText>
 				<reportElement x="594" y="25" width="93" height="25" uuid="a1d3a94d-aa00-42fc-a109-a485fa783d03"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Lato" size="10" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PÁGINA:]]></text>
 			</staticText>
@@ -293,14 +267,14 @@
 			<staticText>
 				<reportElement x="731" y="25" width="11" height="25" uuid="24d89c63-cf14-4df6-a76e-a6282440fbbc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Lato" size="10" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[/]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="64" width="442" height="20" uuid="0460394f-7279-4aab-8656-fd0c494a3af0"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Lato" size="16" isBold="true"/>
+					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[VENTAS MES DE ]]></text>
 			</staticText>
@@ -316,7 +290,7 @@
 	<detail>
 		<band height="249" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 6" style="table 6" x="0" y="0" width="802" height="249" uuid="fbb15ed6-9a3e-4c8d-93da-ec9be91e85db"/>
+				<reportElement key="table 6" style="table 6" stretchType="RelativeToBandHeight" x="0" y="0" width="802" height="249" isPrintWhenDetailOverflows="true" uuid="fbb15ed6-9a3e-4c8d-93da-ec9be91e85db"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="VentasDataset" uuid="f4136835-637e-4aad-8c41-402c3da3043e">
 						<dataSourceExpression><![CDATA[$P{ventas}]]></dataSourceExpression>

@@ -66,9 +66,16 @@ public class VentaController {
             if(report == null){
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            return ResponseEntity.ok().header("Content-Type", "application/pdf; charset=UTF-8")
-            .header("Content-Disposition", "inline; filename=\"" + System.currentTimeMillis() + ".pdf\"")
-            .body(report);
+            if("pdf".equals(reportType)){
+                return ResponseEntity.ok().header("Content-Type", "application/pdf; charset=UTF-8")
+                .header("Content-Disposition", "inline; filename=\"" + System.currentTimeMillis() + ".pdf\"")
+                .body(report);                
+            }
+            else{
+                return ResponseEntity.ok().header("Content-Type", "application/vnd.ms-excel; charset=UTF-8")
+                .header("Content-Disposition", "inline; filename=\"" + System.currentTimeMillis() + ".xls\"")
+                .body(report);
+            }
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
