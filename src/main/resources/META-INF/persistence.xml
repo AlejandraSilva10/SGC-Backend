@@ -15,6 +15,7 @@
     <class>py.com.uds.sgc.entity.SucursalRubro</class>
     <class>py.com.uds.sgc.entity.TipoCuenta</class>
     <class>py.com.uds.sgc.entity.Venta</class>
+    <class>py.com.uds.sgc.entity.Usuarios</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/SGC"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
